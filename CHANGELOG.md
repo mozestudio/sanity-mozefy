@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **For contributors:** Dependabot proposes updates to the dev dependencies and the GitHub Actions every week. [CONTRIBUTING.md](CONTRIBUTING.md#dependency-updates) says how to check them, and when one needs a release.
+
 ## 0.4.0 - 2026-11-25
 
 Tightens the form's structure: containers read as groups, and every title starts on the same edge. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode, and 380 px wide.

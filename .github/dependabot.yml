@@ -1,0 +1,34 @@
+version: 2
+
+updates:
+  # pnpm uses the npm ecosystem. Only devDependencies are pinned here: they are
+  # the toolchain and the dev Studio, so a bump changes what we build and check
+  # against, not what projects install. Peer dependency ranges stay by hand.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      # Sanity on its own: its internals change between releases, so a bump
+      # has to be checked in the dev Studio before it merges (CONTRIBUTING.md).
+      sanity:
+        patterns:
+          - sanity
+      toolchain:
+        patterns:
+          - '*'
+        exclude-patterns:
+          - sanity
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns:
+          - '*'
