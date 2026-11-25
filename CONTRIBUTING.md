@@ -62,6 +62,14 @@ Every pull request that changes what projects install ships as a release of its 
 
 CI fails a pull request whose `dist/` or peer dependencies change while the version stays the same, one whose version has no section in `CHANGELOG.md`, and one that releases a version while `## Unreleased` still has entries. Run the same check locally with `pnpm release:check origin/main`.
 
+### Dependency updates
+
+Dependabot opens pull requests every week, once a new version is 7 days old ([.github/dependabot.yml](.github/dependabot.yml)): one for `sanity`, one for the rest of the dev dependencies, one for the GitHub Actions. Peer dependency ranges are not touched; change those by hand, with a release.
+
+- **A `sanity` bump** changes the Studio Uplift is checked against. Before merging, run the dev Studio on the branch and look at `/uplift` against `/stock`, in light and dark mode, as in [Verifying a rule](CLAUDE.md#verifying-a-rule). Fix what broke on the same branch, and update the Sanity version in [docs/sanity-studio-surface.md](docs/sanity-studio-surface.md).
+- **If CI says `dist/` is out of date**, the new toolchain compiles differently: run `pnpm build` on the branch, cut a release and add a changelog line, as for any change to `dist/`.
+- Otherwise the update changes nothing projects install, and merges without a changelog line.
+
 ### If CI is off
 
 When GitHub Actions is turned off for the repository, nothing checks pull requests and nothing tags `main`. A version that is never tagged cannot be installed, even though the README points at it. Do what CI does, by hand.
