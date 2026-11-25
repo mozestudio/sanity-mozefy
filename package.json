@@ -1,6 +1,6 @@
 {
   "name": "@mozestudio/sanity-uplift",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Moze's shared Sanity Studio layer: a more readable type scale, roomier spacing and clearer form hierarchy, with nothing project-specific.",
   "keywords": [
@@ -38,7 +38,9 @@
     "dev": "cd dev && sanity dev",
     "dev:seed": "cd dev && sanity dataset import seed/fixture.ndjson --replace --dataset ${SANITY_STUDIO_DATASET:-development}",
     "typecheck": "tsc --noEmit && tsc -p dev",
-    "test": "vitest run"
+    "test": "vitest run",
+    "release": "node scripts/release.mjs",
+    "release:check": "node scripts/release.mjs check"
   },
   "peerDependencies": {
     "react": "^19",

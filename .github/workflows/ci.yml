@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # The release check compares the pull request with its base branch.
+          fetch-depth: 0
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
@@ -31,6 +34,12 @@ jobs:
             echo "dist/ is out of date: run pnpm build and commit it" >&2
             exit 1
           fi
+      - name: Check a change to dist/ comes with a release
+        if: github.event_name == 'pull_request'
+        run: pnpm release:check "origin/$GITHUB_BASE_REF"
+      - name: Check the version has its changelog section
+        if: github.event_name != 'pull_request'
+        run: pnpm release:check
       - name: Check a version tag matches package.json
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -39,3 +48,27 @@ jobs:
             echo "Tag $GITHUB_REF_NAME does not match package.json version $version" >&2
             exit 1
           fi
+
+  release:
+    # A version on main that has no tag yet is a release: tag it, with its changelog section as the notes.
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Tag and publish the version if it is new
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
+            echo "v$version is already released"
+            exit 0
+          fi
+          node scripts/release.mjs notes "$version" > "$RUNNER_TEMP/notes.md"
+          gh release create "v$version" --target "$GITHUB_SHA" --title "v$version" --notes-file "$RUNNER_TEMP/notes.md"

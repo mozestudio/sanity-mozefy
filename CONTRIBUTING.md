@@ -45,6 +45,19 @@ To try a change in a project's Studio before releasing, install the local folder
 
 ## Release
 
-1. Bump `version` in `package.json`, note the change in `CHANGELOG.md`, run `pnpm build` and commit `dist/` with the change. CI fails when `dist/` does not match the source.
-2. Merge to `main`, then push a matching tag: `git tag v0.2.0 && git push origin v0.2.0`. CI checks the tag against `package.json`.
-3. In each project, point the dependency at the new tag (`github:mozestudio/sanity-uplift#v0.2.0`) and reinstall.
+Every pull request that changes what projects install ships as a release of its own. Projects install a tag, so a change that never gets one never reaches them.
+
+1. **Note the change.** Every pull request adds a line under `## Unreleased` in `CHANGELOG.md`, written for the people who use Uplift in a project. Docs and dev Studio changes go there too, and ride along with the next release.
+2. **Cut the release** when the pull request changes `dist/` or the peer dependencies:
+
+   ```sh
+   pnpm release patch   # a fix, nothing to change in projects
+   pnpm release minor   # a new rule, token or option; before 1.0, also a breaking change
+   pnpm release major   # a breaking change, from 1.0 on
+   ```
+
+   It moves `## Unreleased` into a dated `## x.y.z` section, bumps `package.json` and points the README's install commands at the new tag. Then run `pnpm build` and commit everything with the change.
+3. **Merge.** When a new version reaches `main`, CI tags it `vx.y.z` and publishes a GitHub release with its changelog section as the notes. Never push a tag by hand.
+4. **Update the projects**: point the dependency at the new tag (`github:mozestudio/sanity-uplift#vx.y.z`) and reinstall.
+
+CI fails a pull request whose `dist/` or peer dependencies change while the version stays the same, one whose version has no section in `CHANGELOG.md`, and one that releases a version while `## Unreleased` still has entries. Run the same check locally with `pnpm release:check origin/main`.

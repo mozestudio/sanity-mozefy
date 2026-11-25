@@ -46,13 +46,13 @@ The package is installed straight from this repository, pinned to a release tag.
 
 ```sh
 # pnpm
-pnpm add github:mozestudio/sanity-uplift#v0.2.0
+pnpm add github:mozestudio/sanity-uplift#v0.3.0
 
 # npm
-npm install github:mozestudio/sanity-uplift#v0.2.0
+npm install github:mozestudio/sanity-uplift#v0.3.0
 ```
 
-This adds `"@mozestudio/sanity-uplift": "github:mozestudio/sanity-uplift#v0.2.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
+This adds `"@mozestudio/sanity-uplift": "github:mozestudio/sanity-uplift#v0.3.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
 
 ## Quick start
 
