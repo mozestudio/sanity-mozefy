@@ -1,3 +1,8 @@
 node_modules
 *.tsbuildinfo
 .DS_Store
+
+# Dev Studio: each contributor's own project settings and build output
+.env*.local
+dev/dist
+dev/.sanity
