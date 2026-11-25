@@ -11,7 +11,11 @@
  * a project's own `:root` declaration wins without any extra specificity.
  */
 export interface UpliftStyleOptions {
-    /** Field titles stronger than their descriptions, and nested content indented. Default `true`. */
+    /**
+     * Field titles stronger than their descriptions, nested content indented,
+     * container titles above their fields, a visible collapse arrow and roomier
+     * group tabs. Default `true`.
+     */
     form?: boolean;
     /** Extra room between array items, for lists and page builders. Default `true`. */
     arrays?: boolean;

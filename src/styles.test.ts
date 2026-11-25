@@ -28,6 +28,19 @@ describe('buildStyles', () => {
     expect(css).not.toContain('[data-ui="Stack"]')
   })
 
+  it('sets container titles, the collapse arrow and group tabs in the form rule set', () => {
+    const css = buildStyles()
+    expect(css).toContain(
+      'fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"]',
+    )
+    expect(css).toContain('[data-sanity-icon="toggle-arrow-right"]')
+    expect(css).toContain('[data-testid="field-group-tabs"] [data-testid^="group-tab-"]')
+    expect(css).toContain('[data-testid="field-groups"]')
+    const formOff = buildStyles({form: false})
+    expect(formOff).not.toContain('toggle-arrow-right')
+    expect(formOff).not.toContain('field-group-tabs')
+  })
+
   it('declares its variables without specificity, so a project can override them', () => {
     expect(buildStyles()).toContain(':where(:root) {')
   })
