@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.3.0 - 2026-11-25
+
 Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode. Sanity 5 has not been checked yet.
 
 - **Token bridge.** `uplift()` reads the theme in use and rewrites Sanity UI 5's `--space-N` and `--body-N`, so field headers and nested content follow the spacing and type scale. Turn it off with `uplift({bridge: false})`.
@@ -22,8 +24,12 @@ Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked i
   - [GLOSSARY.md](GLOSSARY.md) defines the terms used across code and docs.
   - [docs/sanity-studio-surface.md](docs/sanity-studio-surface.md) maps what a theme, a plugin and CSS can change in a Sanity Studio.
   - [ADR 0001](docs/adr/0001-token-bridge-and-targeted-rules.md) records why Uplift has both a bridge and targeted rules.
+- **For contributors** (nothing here ships in the package):
+  - A dev Studio in `dev/` runs the plugin from `src/`. Its `/uplift` and `/stock` workspaces show the same `Fixture` document with and without Uplift. `pnpm dev:seed` imports the document.
+  - [CLAUDE.md](CLAUDE.md) briefs agents working in this repo, and `.claude/skills/` vendors Sanity's agent skills.
+  - Releases are cut with `pnpm release patch|minor|major`. CI checks that a change to `dist/` comes with a new version, and tags each new version that reaches `main`. See [CONTRIBUTING.md](CONTRIBUTING.md#release).
 
-## 0.2.0
+## 0.2.0 - 2026-11-25
 
 Renamed from `sanity-mozefy` to `sanity-uplift`. Breaking: only the names change, the behaviour is the same.
 
@@ -35,7 +41,10 @@ Renamed from `sanity-mozefy` to `sanity-uplift`. Breaking: only the names change
 | `MozefyOptions`, `MozefyStyleOptions`, `MozefyThemeOptions`, `MozefyTokens` | `UpliftOptions`, `UpliftStyleOptions`, `UpliftThemeOptions`, `UpliftTokens` |
 | `--mozefy-*` custom properties | `--uplift-*` |
 
-## 0.1.0
+- **Docs:** the README is written for a public repo, and the contributor guide moved to [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 0.1.0 - 2026-11-25
 
 - `mozefyTheme()`: the comfortable spacing scale and `Text` scale on top of any base theme.
 - `mozefy()`: form rules (field title and description hierarchy, nested fieldsets) and array rules (gap between items), each with custom properties to retune.
+- Installed straight from a GitHub tag, with the compiled `dist/` committed. There is no registry.

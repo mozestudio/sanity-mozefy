@@ -20,6 +20,7 @@ docs/
 ├── sanity-studio-surface.md  # what a theme, a plugin and CSS can change in a Studio
 └── adr/                      # decisions worth a record
 dev/            # dev Studio running src/, never published
+scripts/        # release.mjs: cuts a release, and the checks CI runs on it
 dist/           # compiled output, committed: projects install from git tags
 ```
 
@@ -31,9 +32,13 @@ pnpm typecheck   # src/ and the dev Studio
 pnpm build       # rewrites dist/; commit it with the change, CI fails otherwise
 pnpm dev         # dev Studio on :3333, needs dev/.env.local (see CONTRIBUTING.md)
 pnpm dev:seed    # imports the Fixture document into the dev Studio's dataset
+pnpm release patch|minor|major   # cuts a release from CHANGELOG.md's "## Unreleased"
+pnpm release:check origin/main   # what CI checks about the version and the changelog
 ```
 
-Run all three before you finish. If you touch `src/`, `dist/` changes too.
+Run test, typecheck and build before you finish. If you touch `src/`, `dist/` changes too.
+
+Every pull request adds a line under `## Unreleased` in `CHANGELOG.md`. One that changes `dist/` also cuts a release, so projects can install it: see [CONTRIBUTING.md](CONTRIBUTING.md#release). CI tags the new version when it reaches `main`; never push a tag yourself.
 
 ## Facts about Sanity come from the installed source
 
