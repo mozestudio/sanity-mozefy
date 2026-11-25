@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode. Arrays in grid layout and Sanity 5 have not been checked yet.
+Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode. Sanity 5 has not been checked yet.
 
 - **Token bridge.** `uplift()` reads the theme in use and rewrites Sanity UI 5's `--space-N` and `--body-N`, so field headers and nested content follow the spacing and type scale. Turn it off with `uplift({bridge: false})`.
 - **Rules rewritten for the markup of 6.24:**

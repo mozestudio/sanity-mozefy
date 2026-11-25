@@ -212,8 +212,9 @@ They were checked in the dev Studio on Sanity 6.24.0 (2026-11-25), comparing `/u
 | Nested content, levels 1 to 3 | 12px indent | 16px indent, line kept |
 | Portable Text list items (`data-level` 1 and 2) | 0 | 0 (untouched) |
 | Array items, list layout | | 3px padding top and bottom; the virtualised list keeps every item inside its card |
+| Array items, grid layout | 12px gap | 3px padding around each item, 14px gap from the bridged scale; items stay inside the card |
 
-Not checked yet: an array in grid layout with items (the fixture's gallery was empty), and Sanity 5.
+Not checked yet: Sanity 5.
 
 | Part | Aims at | 0.2.0 | Now |
 | --- | --- | --- | --- |
@@ -230,5 +231,5 @@ Not checked yet: an array in grid layout with items (the fixture's gallery was e
 
 Still open:
 
-- **Grid layout with items, and Sanity 5.** Neither has been checked.
+- **Sanity 5.** Not checked.
 - **Group tabs.** No rule yet.
