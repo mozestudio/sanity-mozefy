@@ -12,10 +12,13 @@ It carries nothing project-specific. Your schemas, structure, colours and copy s
 
 - **Readable type.** Body text goes from 13 to 14 px, small text from 10 to 11 px.
 - **Room to breathe.** The middle steps of the spacing scale open up, so fields and controls stop crowding each other.
-- **Clear form hierarchy.** Field titles read stronger than their descriptions, descriptions keep a readable line length, nested fieldsets are indented.
-- **Lists that read as cards.** Array items and page-builder blocks get space between them.
+- **Clear form hierarchy.** Field titles read stronger than their descriptions, descriptions keep a readable line length, nested content is indented.
+- **Lists that read as cards.** Array items get space between them, in plain lists and page builders alike.
 - **Composes with your theme.** Uplift touches only spacing and type, so it sits on top of any colour theme.
 - **Tunable, not forkable.** Every value is a theme token or a CSS custom property you can override.
+
+> [!NOTE]
+> **Sanity 6.24 and later.** These versions build the form chrome (field headers, fieldsets, nested content) with Sanity UI 5, which ignores the theme. The `uplift()` plugin carries the theme's scales across with a [token bridge](#how-it-works). The selectors were rewritten for the markup of 6.24 and checked in a running 6.24 Studio. See [What Uplift can change in a Sanity Studio](docs/sanity-studio-surface.md).
 
 ## Contents
 
@@ -34,6 +37,7 @@ It carries nothing project-specific. Your schemas, structure, colours and copy s
 | --- | --- |
 | Sanity Studio | v5 or v6 |
 | React | 19 |
+| styled-components | 6, already required by Sanity |
 | Node.js | 22 or later |
 
 ## Install
@@ -67,15 +71,15 @@ export default defineConfig({
 ```
 
 - `upliftTheme()` sets the spacing and type scale through Sanity UI's theme tokens.
-- `uplift()` adds the form and array rules that tokens cannot reach.
+- `uplift()` carries those scales to the parts of the Studio that ignore the theme, and adds the form and array rules that tokens cannot reach.
 
-Use both for the full effect. Either one works on its own.
+Use both for the full effect. Either one works on its own; `uplift()` alone bridges the stock scales.
 
 ## What it changes
 
 ### Type scale
 
-The `Text` scale, as `size={n}` in Sanity UI. Size 1 is the Studio's body text: field titles, inputs, lists.
+The `Text` scale, as `size={n}` in Sanity UI. Size 1 is the Studio's body text: field titles, inputs, lists. On Sanity 6.24 and later, field titles and descriptions follow it only through the token bridge of `uplift()`.
 
 | Step | Sanity default | Uplift |
 | --- | --- | --- |
@@ -98,8 +102,12 @@ The `space={n}` scale, in px.
 
 | Rule set | Option | What it does |
 | --- | --- | --- |
-| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested fieldsets indented by 16 px |
-| Arrays | `arrays` | A 6 px gap between the items of an array |
+| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested content indented by 16 px |
+| Arrays | `arrays` | 6 px of extra room between array items, on top of Sanity's own gap |
+
+### Token bridge
+
+On Sanity 6.24 and later, `uplift()` reads the theme in use and points Sanity UI 5's spacing and body text at its scales. Field headers and nested content then follow the same scale as the rest of the Studio. Turn it off with `uplift({bridge: false})`.
 
 ## Customise
 
@@ -135,7 +143,7 @@ theme: upliftTheme({
 
 ### Override a CSS custom property
 
-From your project's own stylesheet:
+From your project's own stylesheet. Uplift declares its defaults without specificity, so a plain `:root` rule wins:
 
 ```css
 :root {
@@ -148,8 +156,8 @@ From your project's own stylesheet:
 | `--uplift-field-title-weight` | `600` | Weight of a field's title |
 | `--uplift-field-description-size` | `13px` | Size of a field's description |
 | `--uplift-field-description-line-height` | `19px` | Line height of a field's description |
-| `--uplift-fieldset-indent` | `16px` | Indent of a nested fieldset's content |
-| `--uplift-array-item-gap` | `6px` | Gap between the items of an array |
+| `--uplift-nested-content-indent` | `16px` | Indent of nested content |
+| `--uplift-array-item-gap` | `6px` | Extra room between array items |
 
 ## API
 
@@ -164,10 +172,11 @@ Returns a `StudioTheme` for the config's `theme` option.
 
 ### `uplift(options?)`
 
-A Studio plugin that injects Uplift's CSS once, at the layout level.
+A Studio plugin that injects Uplift's CSS once, at the layout level: the token bridge first, then the rules.
 
 | Option | Type | Default |
 | --- | --- | --- |
+| `bridge` | `boolean` | `true` |
 | `form` | `boolean` | `true` |
 | `arrays` | `boolean` | `true` |
 
@@ -176,17 +185,21 @@ A Studio plugin that injects Uplift's CSS once, at the layout level.
 | Export | What it is |
 | --- | --- |
 | `comfortable` | The default `UpliftTokens`, to read or extend |
-| `buildStyles(options?)` | The CSS string `uplift()` injects, if you need to place it yourself |
+| `buildStyles(options?)` | The rules `uplift()` injects, if you need to place them yourself |
+| `buildTokenBridge(theme)` | The token bridge CSS for a `v2` theme |
 | `toFontSize(step)` | Turns a `{fontSize, lineHeight}` step into a Sanity UI font size, with cap-height trim and icon size |
-| `UpliftOptions`, `UpliftThemeOptions`, `UpliftTokens`, `TypeStep` | TypeScript types |
+| `UpliftOptions`, `UpliftThemeOptions`, `UpliftTokens`, `TypeStep`, `BridgeTheme` | TypeScript types |
 
 ## How it works
 
-- **Tokens first.** Whatever a theme token can express, Uplift expresses as a token, so every Studio component picks it up consistently. Both the legacy and the `v2` theme fields are kept in step.
+- **Tokens first.** Whatever a theme token can express, Uplift expresses as a token, so every Studio component that follows the theme picks it up. The Studio reads the `v2` theme and the root `fonts`; Uplift writes both.
+- **A bridge where the theme does not reach.** Since Sanity 6.24 the form chrome ignores the theme and reads Sanity UI 5's own custom properties. The plugin rewrites them from the theme in use, so a retuned token group reaches the whole Studio. Why it is done this way: [ADR 0001](docs/adr/0001-token-bridge-and-targeted-rules.md).
 - **CSS only for the rest.** Form hierarchy and array spacing are not reachable through tokens, so the plugin adds a small stylesheet.
-- **Stable selectors.** Sanity's class names are generated hashes that change between releases. Uplift targets only the attributes Sanity sets on purpose (`data-ui`, `data-testid`, `data-level`), and a test guards against generated class names.
+- **Stable selectors.** Sanity's class names are generated hashes that change between releases, and a test guards against them. Selectors rest on hooks Sanity sets on purpose (`data-testid`, named `data-ui` values such as `fieldHeaderContentBox`, `data-level`, the `desc_` description ids). Where a rule still leans on the generic name of a Sanity UI primitive (`Text`, `Card`, `Grid`), its comment says so. See the [map of Studio hooks](docs/sanity-studio-surface.md#4-dom-hooks-for-css).
 - **No side effects on your theme.** `upliftTheme()` returns a new object and never mutates `base`.
 
 ## Contributing
+
+Before changing a rule or a token, read [What Uplift can change in a Sanity Studio](docs/sanity-studio-surface.md), a map of the theme, plugin API and DOM hooks Sanity exposes. The words used across the code and docs are defined in [GLOSSARY.md](GLOSSARY.md).
 
 Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the rules the package follows, how to develop against a real Studio and how releases work.

@@ -18,6 +18,20 @@ describe('buildStyles', () => {
     expect(buildStyles({form: false, arrays: false})).toBe('')
   })
 
+  it('targets the hooks Sanity 6.24 renders', () => {
+    const css = buildStyles()
+    expect(css).toContain('legend [data-ui="Text"]')
+    expect(css).toContain('[id^="desc_"]')
+    expect(css).toContain('fieldset[data-level]:not([data-level="0"]) > :last-child')
+    expect(css).toContain('> [data-index]')
+    expect(css).not.toContain('[tabindex]')
+    expect(css).not.toContain('[data-ui="Stack"]')
+  })
+
+  it('declares its variables without specificity, so a project can override them', () => {
+    expect(buildStyles()).toContain(':where(:root) {')
+  })
+
   it('never targets a generated class name', () => {
     expect(buildStyles()).not.toMatch(/\.[a-zA-Z]+-[a-zA-Z0-9]{5,}/)
   })

@@ -1,0 +1,9 @@
+{
+  "name": "sanity-uplift-dev-studio",
+  "private": true,
+  "description": "Dev Studio for working on Uplift. Never published, never installed on its own: the dependencies resolve from the repo root. The Sanity CLI only requires styled-components to be declared here.",
+  "type": "module",
+  "devDependencies": {
+    "styled-components": "6.6.0"
+  }
+}

@@ -21,7 +21,8 @@ export interface UpliftTokens {
     space: number[];
     /**
      * The `Text` scale, five steps (`size={0}` to `size={4}`). Step 1 is the
-     * body text of the Studio: field titles, inputs, lists.
+     * body text of the Studio. On Sanity 6.24 it reaches inputs, buttons, menus
+     * and previews, but not field titles and descriptions, which ignore the theme.
      * Sanity default: 10/15, 13/19, 15/23, 18/27, 21/31.
      */
     text: TypeStep[];

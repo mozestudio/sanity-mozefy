@@ -1,3 +1,4 @@
+export { buildTokenBridge } from './bridge.js';
 export { uplift } from './plugin.js';
 export { buildStyles } from './styles.js';
 export { upliftTheme, toFontSize } from './theme.js';
