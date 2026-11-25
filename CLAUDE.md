@@ -19,6 +19,7 @@ src/
 docs/
 ├── sanity-studio-surface.md  # what a theme, a plugin and CSS can change in a Studio
 └── adr/                      # decisions worth a record
+dev/            # dev Studio running src/, never published
 dist/           # compiled output, committed: projects install from git tags
 ```
 
@@ -26,8 +27,9 @@ dist/           # compiled output, committed: projects install from git tags
 
 ```sh
 pnpm test        # vitest
-pnpm typecheck
+pnpm typecheck   # src/ and the dev Studio
 pnpm build       # rewrites dist/; commit it with the change, CI fails otherwise
+pnpm dev         # dev Studio on :3333, needs dev/.env.local (see CONTRIBUTING.md)
 ```
 
 Run all three before you finish. If you touch `src/`, `dist/` changes too.
@@ -45,7 +47,9 @@ Traps already found, on Sanity 6.24:
 
 ## Verifying a rule
 
-Unit tests only check the CSS string. A selector that stops matching fails silently, so a change to a rule or to the bridge is not done until someone has checked it in a running Studio, in light and dark mode. If you could not check it, say so in the PR and in the map. Never call it verified.
+Unit tests only check the CSS string. A selector that stops matching fails silently, so a change to a rule or to the bridge is not done until someone has checked it in a running Studio, in light and dark mode.
+
+Use the dev Studio for this. `/uplift` and `/stock` show the same `Fixture` document with and without Uplift. When a rule targets a part of the form that `Fixture` lacks, add a generic field to `dev/schema.ts`. If you could not check a change, say so in the PR and in the map. Never call it verified.
 
 ## Decisions
 
