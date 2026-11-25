@@ -1,0 +1,57 @@
+{
+  "name": "@mozestudio/sanity-mozefy",
+  "version": "0.1.0",
+  "description": "Moze's shared Sanity Studio layer: a more readable type scale, roomier spacing and clearer form hierarchy, with nothing project-specific.",
+  "keywords": [
+    "sanity",
+    "sanity-plugin",
+    "studio",
+    "theme"
+  ],
+  "license": "UNLICENSED",
+  "author": "Moze Studio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mozestudio/sanity-mozefy.git"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "sanity": "^5 || ^6"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sanity": "6.24.0",
+    "styled-components": "6.6.0",
+    "typescript": "6.0.3",
+    "vitest": "5.1.1"
+  }
+}
