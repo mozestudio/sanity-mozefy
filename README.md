@@ -77,6 +77,19 @@ Use both for the full effect. Either one works on its own; `uplift()` alone brid
 
 ## What it changes
 
+### Side by side
+
+The same `Fixture` document in the [dev Studio](CONTRIBUTING.md#dev-studio), as Sanity ships it and with Uplift. Sanity 6.24.0. GitHub shows the dark screenshots when your system is in dark mode.
+
+| Stock | Uplift |
+| --- | --- |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/fields-stock-dark.png"><img src="docs/images/compare/fields-stock-light.png" alt="Group tabs, then the Title and Slug fields, in a stock Studio"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/fields-uplift-dark.png"><img src="docs/images/compare/fields-uplift-light.png" alt="The same fields with Uplift: heavier field titles, larger text, and the tabs closer to the first field"></picture> |
+| **Field titles and group tabs.** Field titles read at weight 600, body text at 14 px. The group tabs start on the fields' edge and sit as close to the first field as fields sit to each other. | |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/nested-stock-dark.png"><img src="docs/images/compare/nested-stock-light.png" alt="An object nested three levels deep in a stock Studio"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/nested-uplift-dark.png"><img src="docs/images/compare/nested-uplift-light.png" alt="The same nested object with Uplift: larger container titles, tighter fields and a larger collapse arrow"></picture> |
+| **Nested content.** Container titles read a step above the fields inside them, and those fields sit 22 px apart, so each object reads as one group. The collapse arrow is larger and hangs before the edge. | |
+| <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/arrays-stock-dark.png"><img src="docs/images/compare/arrays-stock-light.png" alt="An array of cards in list layout in a stock Studio"></picture> | <picture><source media="(prefers-color-scheme: dark)" srcset="docs/images/compare/arrays-uplift-dark.png"><img src="docs/images/compare/arrays-uplift-light.png" alt="The same array with Uplift: more room between the items"></picture> |
+| **Arrays.** Items get 6 px of extra room between them. | |
+
 ### Type scale
 
 The `Text` scale, as `size={n}` in Sanity UI. Size 1 is the Studio's body text: field titles, inputs, lists. On Sanity 6.24 and later, field titles and descriptions follow it only through the token bridge of `uplift()`.

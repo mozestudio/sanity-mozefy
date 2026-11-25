@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **The README shows Uplift side by side with a stock Studio**: field titles and group tabs, nested content and arrays, in light and dark mode.
 - **For contributors:** Dependabot proposes updates to the dev dependencies and the GitHub Actions every week. [CONTRIBUTING.md](CONTRIBUTING.md#dependency-updates) says how to check them, and when one needs a release.
 
 ## 0.4.0 - 2026-11-25
