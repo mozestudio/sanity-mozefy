@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 0.4.0 - 2026-11-25
+
+Tightens the form's structure: containers read as groups, and every title starts on the same edge. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode, and 380 px wide.
+
+- **Container titles read heavier.** They were one step (2 px) above field titles at the same weight, which barely showed. They now also take `--uplift-container-title-weight`, `700` by default.
+- **Nested content reads as one group.** Its fields sit 22 px apart, spacing step 4, under half the 56 px between the document's own fields. Sanity spaced an object's fields like the document's, and a fieldset's on step 5. Retune with `--uplift-nested-field-gap`.
+- **Collapsible titles and group tabs line up with the fields.** The collapse arrow hangs before the edge, so a collapsible title starts where the fields around it start, 12 px further left than before. The group tabs move back by their own padding, `--uplift-group-tab-inset` (step 2, 8 px), so their labels start on that edge too. At narrow widths the group select stays where it was.
+- **Nested content is indented with `padding-inline-start`**, not `padding-left`.
+- **`buildStyles()` takes the spacing and type scale** as its second argument, `{space, text}`, both defaulting to `comfortable`. New export: `UpliftStyleScales`.
+- **Description and container title sizes follow the type scale.** A project that retunes `tokens.text` keeps the same hierarchy: descriptions sit 1 px under body text, container titles on step 2. The defaults are unchanged with `comfortable`.
+- **For contributors:** [CONTRIBUTING.md](CONTRIBUTING.md#if-ci-is-off) says how to check a pull request and tag a release by hand when GitHub Actions is off.
+
 ## 0.3.0 - 2026-11-25
 
 Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked in the dev Studio on Sanity 6.24.0, in dark and light mode. Sanity 5 has not been checked yet.

@@ -57,7 +57,35 @@ Every pull request that changes what projects install ships as a release of its 
    ```
 
    It moves `## Unreleased` into a dated `## x.y.z` section, bumps `package.json` and points the README's install commands at the new tag. Then run `pnpm build` and commit everything with the change.
-3. **Merge.** When a new version reaches `main`, CI tags it `vx.y.z` and publishes a GitHub release with its changelog section as the notes. Never push a tag by hand.
+3. **Merge.** When a new version reaches `main`, CI tags it `vx.y.z` and publishes a GitHub release with its changelog section as the notes. Never push a tag by hand, unless CI is off: see [If CI is off](#if-ci-is-off).
 4. **Update the projects**: point the dependency at the new tag (`github:mozestudio/sanity-uplift#vx.y.z`) and reinstall.
 
 CI fails a pull request whose `dist/` or peer dependencies change while the version stays the same, one whose version has no section in `CHANGELOG.md`, and one that releases a version while `## Unreleased` still has entries. Run the same check locally with `pnpm release:check origin/main`.
+
+### If CI is off
+
+When GitHub Actions is turned off for the repository, nothing checks pull requests and nothing tags `main`. A version that is never tagged cannot be installed, even though the README points at it. Do what CI does, by hand.
+
+Before merging, on the pull request's branch:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm typecheck && pnpm test && pnpm build
+git status --porcelain dist      # must print nothing: dist/ matches the source
+pnpm release:check origin/main
+```
+
+After merging, from an up-to-date `main`:
+
+```sh
+git switch main && git pull
+pnpm release:check
+version="$(node -p "require('./package.json').version")"
+if ! git ls-remote --exit-code --tags origin "refs/tags/v$version" > /dev/null; then
+  node scripts/release.mjs notes "$version" > release-notes.md
+  gh release create "v$version" --target "$(git rev-parse HEAD)" --title "v$version" --notes-file release-notes.md
+  rm release-notes.md
+fi
+```
+
+`--target` takes the full commit SHA; GitHub refuses an abbreviated one. Tag every version in order: if a merge brought more than one, tag each on the commit that introduced it.

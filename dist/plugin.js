@@ -13,10 +13,14 @@ import { buildStyles } from './styles.js';
  */
 export const uplift = definePlugin((options) => {
     const { bridge = true, ...styleOptions } = options ?? {};
-    const rules = buildStyles(styleOptions);
     function UpliftLayout(props) {
         const theme = useTheme()?.sanity?.v2;
-        const css = useMemo(() => [bridge && theme ? buildTokenBridge(theme) : '', rules].filter(Boolean).join('\n\n'), [theme]);
+        const css = useMemo(() => [
+            bridge && theme ? buildTokenBridge(theme) : '',
+            buildStyles(styleOptions, { space: theme?.space, text: theme?.font.text.sizes }),
+        ]
+            .filter(Boolean)
+            .join('\n\n'), [theme]);
         return (_jsxs(_Fragment, { children: [css ? _jsx("style", { "data-uplift": "", children: css }) : null, props.renderDefault(props)] }));
     }
     return {

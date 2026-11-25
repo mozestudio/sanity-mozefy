@@ -24,7 +24,7 @@ describe('buildStyles', () => {
     expect(css).toContain('[id^="desc_"]')
     expect(css).toContain('fieldset[data-level]:not([data-level="0"]) > :last-child')
     expect(css).toContain('> [data-index]')
-    expect(css).not.toContain('[tabindex]')
+    expect(css).not.toContain(':last-child > [tabindex]')
     expect(css).not.toContain('[data-ui="Stack"]')
   })
 
@@ -47,5 +47,45 @@ describe('buildStyles', () => {
 
   it('never targets a generated class name', () => {
     expect(buildStyles()).not.toMatch(/\.[a-zA-Z]+-[a-zA-Z0-9]{5,}/)
+  })
+  it('sizes descriptions and container titles from the type scale', () => {
+    const css = buildStyles()
+    expect(css).toContain('--uplift-field-description-size: 13px;')
+    expect(css).toContain('--uplift-container-title-size: 16px;')
+    expect(css).toContain('--uplift-container-title-weight: 700;')
+    const retuned = buildStyles(
+      {},
+      {
+        text: [
+          {fontSize: 12, lineHeight: 17},
+          {fontSize: 15, lineHeight: 23},
+          {fontSize: 18, lineHeight: 27},
+          {fontSize: 21, lineHeight: 31},
+          {fontSize: 24, lineHeight: 34},
+        ],
+      },
+    )
+    expect(retuned).toContain('--uplift-field-description-size: 14px;')
+    expect(retuned).toContain('--uplift-field-description-line-height: 21px;')
+    expect(retuned).toContain('--uplift-container-title-size: 18px;')
+    expect(retuned).toContain('--uplift-container-title-line-height: 27px;')
+  })
+
+  it('sizes the nested field gap and the group tab inset from the spacing scale', () => {
+    const css = buildStyles()
+    expect(css).toContain('--uplift-nested-field-gap: 22px;')
+    expect(css).toContain('--uplift-group-tab-inset: 8px;')
+    const retuned = buildStyles({}, {space: [0, 4, 6, 12, 18, 32, 52, 84, 136, 220]})
+    expect(retuned).toContain('--uplift-nested-field-gap: 18px;')
+    expect(retuned).toContain('--uplift-group-tab-inset: 6px;')
+  })
+
+  it('aligns collapsible titles and group tabs to the edge of the fields', () => {
+    const css = buildStyles()
+    expect(css).toContain('fieldset[data-level]:not([data-level="0"]) > :last-child > * > [tabindex]')
+    expect(css).toContain('legend > button:has([data-sanity-icon="toggle-arrow-right"])')
+    expect(css).toContain('inset-inline-start: calc(-1 * var(--uplift-group-tab-inset))')
+    expect(css).not.toMatch(/(padding|margin)-(left|right)/)
+    expect(buildStyles({form: false})).not.toContain('--uplift-nested-field-gap)')
   })
 })

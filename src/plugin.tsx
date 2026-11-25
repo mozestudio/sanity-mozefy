@@ -27,12 +27,17 @@ interface StudioStyledTheme {
  */
 export const uplift = definePlugin<UpliftOptions | void>((options) => {
   const {bridge = true, ...styleOptions} = options ?? {}
-  const rules = buildStyles(styleOptions)
 
   function UpliftLayout(props: LayoutProps) {
     const theme = (useTheme() as StudioStyledTheme | undefined)?.sanity?.v2
     const css = useMemo(
-      () => [bridge && theme ? buildTokenBridge(theme) : '', rules].filter(Boolean).join('\n\n'),
+      () =>
+        [
+          bridge && theme ? buildTokenBridge(theme) : '',
+          buildStyles(styleOptions, {space: theme?.space, text: theme?.font.text.sizes}),
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
       [theme],
     )
 
