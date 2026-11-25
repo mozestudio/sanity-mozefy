@@ -38,7 +38,7 @@ pnpm release:check origin/main   # what CI checks about the version and the chan
 
 Run test, typecheck and build before you finish. If you touch `src/`, `dist/` changes too.
 
-Every pull request adds a line under `## Unreleased` in `CHANGELOG.md`. One that changes `dist/` also cuts a release, so projects can install it: see [CONTRIBUTING.md](CONTRIBUTING.md#release). CI tags the new version when it reaches `main`; never push a tag yourself.
+Every pull request adds a line under `## Unreleased` in `CHANGELOG.md`. One that changes `dist/` also cuts a release, so projects can install it: see [CONTRIBUTING.md](CONTRIBUTING.md#release). CI tags the new version when it reaches `main`; never push a tag yourself. The one exception is when GitHub Actions is off: then follow [If CI is off](CONTRIBUTING.md#if-ci-is-off), and only when the user asks.
 
 ## Facts about Sanity come from the installed source
 

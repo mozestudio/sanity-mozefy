@@ -12,6 +12,7 @@ Tightens the form's structure: containers read as groups, and every title starts
 - **Nested content is indented with `padding-inline-start`**, not `padding-left`.
 - **`buildStyles()` takes the spacing and type scale** as its second argument, `{space, text}`, both defaulting to `comfortable`. New export: `UpliftStyleScales`.
 - **Description and container title sizes follow the type scale.** A project that retunes `tokens.text` keeps the same hierarchy: descriptions sit 1 px under body text, container titles on step 2. The defaults are unchanged with `comfortable`.
+- **For contributors:** [CONTRIBUTING.md](CONTRIBUTING.md#if-ci-is-off) says how to check a pull request and tag a release by hand when GitHub Actions is off.
 
 ## 0.3.0 - 2026-11-25
 
