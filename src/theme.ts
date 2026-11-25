@@ -1,5 +1,5 @@
 import {defaultTheme, type StudioTheme} from 'sanity'
-import {comfortable, type MozefyTokens, type TypeStep} from './tokens.js'
+import {comfortable, type UpliftTokens, type TypeStep} from './tokens.js'
 
 type RootTheme = typeof defaultTheme
 type ThemeFontSize = RootTheme['fonts']['text']['sizes'][number]
@@ -7,39 +7,39 @@ type ThemeFontSize = RootTheme['fonts']['text']['sizes'][number]
 /** Inter's cap height as a share of the font size. */
 const CAP_HEIGHT = 0.727
 
-export interface MozefyThemeOptions {
+export interface UpliftThemeOptions {
   /**
    * The theme to start from. Pass the project's own theme here, for example the
    * result of `buildTheme` from `@sanity/themer` with the project's colours, and
-   * Mozefy keeps its colours and changes only spacing and type.
+   * Uplift keeps its colours and changes only spacing and type.
    * Defaults to the stock Studio theme of the project's Sanity version.
    */
   base?: StudioTheme
   /** Replaces whole token groups. Defaults to {@link comfortable}. */
-  tokens?: Partial<MozefyTokens>
+  tokens?: Partial<UpliftTokens>
 }
 
 /**
- * Builds the value of a Studio's `theme` option: the base theme with Mozefy's
+ * Builds the value of a Studio's `theme` option: the base theme with Uplift's
  * spacing and type scale applied.
  *
- * A plugin cannot set the theme, so this lives beside the `mozefy()` plugin:
+ * A plugin cannot set the theme, so this lives beside the `uplift()` plugin:
  *
  * ```ts
  * defineConfig({
- *   theme: mozefyTheme(),
- *   plugins: [mozefy()],
+ *   theme: upliftTheme(),
+ *   plugins: [uplift()],
  * })
  * ```
  */
-export function mozefyTheme(options: MozefyThemeOptions = {}): StudioTheme {
+export function upliftTheme(options: UpliftThemeOptions = {}): StudioTheme {
   const base: StudioTheme = options.base ?? defaultTheme
-  const tokens: MozefyTokens = {...comfortable, ...options.tokens}
+  const tokens: UpliftTokens = {...comfortable, ...options.tokens}
   const baseFonts = base.fonts ?? defaultTheme.fonts
   const baseSpace = base.space ?? defaultTheme.space
 
   assertScale('space', tokens.space, baseSpace.length)
-  if (tokens.space[0] !== 0) throw new Error('sanity-mozefy: tokens.space[0] must be 0')
+  if (tokens.space[0] !== 0) throw new Error('sanity-uplift: tokens.space[0] must be 0')
   assertScale('text', tokens.text, baseFonts.text.sizes.length)
 
   const fonts = {
@@ -79,7 +79,7 @@ export function toFontSize(step: TypeStep, previous?: ThemeFontSize): ThemeFontS
 function assertScale(name: string, scale: readonly unknown[], expected: number) {
   if (scale.length !== expected) {
     throw new Error(
-      `sanity-mozefy: tokens.${name} needs ${expected} steps to match the base theme, got ${scale.length}`,
+      `sanity-uplift: tokens.${name} needs ${expected} steps to match the base theme, got ${scale.length}`,
     )
   }
 }

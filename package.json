@@ -1,6 +1,6 @@
 {
-  "name": "@mozestudio/sanity-mozefy",
-  "version": "0.1.0",
+  "name": "@mozestudio/sanity-uplift",
+  "version": "0.2.0",
   "private": true,
   "description": "Moze's shared Sanity Studio layer: a more readable type scale, roomier spacing and clearer form hierarchy, with nothing project-specific.",
   "keywords": [
@@ -13,7 +13,7 @@
   "author": "Moze Studio",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mozestudio/sanity-mozefy.git"
+    "url": "git+https://github.com/mozestudio/sanity-uplift.git"
   },
   "type": "module",
   "sideEffects": false,

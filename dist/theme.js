@@ -3,26 +3,26 @@ import { comfortable } from './tokens.js';
 /** Inter's cap height as a share of the font size. */
 const CAP_HEIGHT = 0.727;
 /**
- * Builds the value of a Studio's `theme` option: the base theme with Mozefy's
+ * Builds the value of a Studio's `theme` option: the base theme with Uplift's
  * spacing and type scale applied.
  *
- * A plugin cannot set the theme, so this lives beside the `mozefy()` plugin:
+ * A plugin cannot set the theme, so this lives beside the `uplift()` plugin:
  *
  * ```ts
  * defineConfig({
- *   theme: mozefyTheme(),
- *   plugins: [mozefy()],
+ *   theme: upliftTheme(),
+ *   plugins: [uplift()],
  * })
  * ```
  */
-export function mozefyTheme(options = {}) {
+export function upliftTheme(options = {}) {
     const base = options.base ?? defaultTheme;
     const tokens = { ...comfortable, ...options.tokens };
     const baseFonts = base.fonts ?? defaultTheme.fonts;
     const baseSpace = base.space ?? defaultTheme.space;
     assertScale('space', tokens.space, baseSpace.length);
     if (tokens.space[0] !== 0)
-        throw new Error('sanity-mozefy: tokens.space[0] must be 0');
+        throw new Error('sanity-uplift: tokens.space[0] must be 0');
     assertScale('text', tokens.text, baseFonts.text.sizes.length);
     const fonts = {
         ...baseFonts,
@@ -57,7 +57,7 @@ export function toFontSize(step, previous) {
 }
 function assertScale(name, scale, expected) {
     if (scale.length !== expected) {
-        throw new Error(`sanity-mozefy: tokens.${name} needs ${expected} steps to match the base theme, got ${scale.length}`);
+        throw new Error(`sanity-uplift: tokens.${name} needs ${expected} steps to match the base theme, got ${scale.length}`);
     }
 }
 //# sourceMappingURL=theme.js.map
