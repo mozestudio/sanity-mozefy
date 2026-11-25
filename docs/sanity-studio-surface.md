@@ -167,6 +167,9 @@ Two kinds of attribute exist:
 | Validation icon | `svg[data-testid^="input-validation-icon-"]` | deliberate |
 | Object, array, image or file field | `fieldset[data-level]`; simple fields are a `div` with `data-level="0"` | deliberate |
 | Nested content | `fieldset[data-level]:not([data-level="0"]) > :last-child` | deliberate attribute plus structure |
+| Container title | `fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"]` | deliberate attribute plus structure; `Text` is incidental |
+| Collapse arrow | `fieldset[data-level] legend [data-sanity-icon="toggle-arrow-right"]`, inside `legend > button` | deliberate: `data-sanity-icon` is set by `@sanity/icons` |
+| Group tabs wrapper | `[data-testid="field-groups"]` | deliberate |
 | Schema fieldset | `fieldset[data-testid="fieldset-<name>"]` | deliberate |
 | Group tabs | `[data-testid="field-group-tabs"]`, each tab `[data-testid="group-tab-<name>"]`, narrow-width `select[data-testid="field-group-select"]` | deliberate |
 | Array | `[data-ui="ArrayInput__content"]` | deliberate |
@@ -182,6 +185,9 @@ Things to know when writing these selectors:
 - **The level counts from the document root.** Every object, array, image and file field has a level above 0, including the ones placed straight on the document.
 - **Long array lists are virtualised.** Items are positioned by a script that measures each item, so a CSS `gap` on the list makes the last items overflow the card. Add padding to each item instead. The grid layout is not virtualised.
 - **`[data-testid^="field-"]` on its own over-matches.** It also catches `field-actions-menu-*` and `field-group-*`.
+- **`data-level` above 0 means nested content.** `FormFieldSet` draws the line and the indent exactly when `level > 0`. On 6.24, arrays placed straight on the document, and their fieldsets, carry `data-level="0"`; objects and schema fieldsets carry 1 and up.
+- **The collapse arrow sits in a 9 px box.** `ToggleIconBox` in `FormFieldSetLegend` is 9 × 9 px with 3 px before the title, and the icon is `1em` with an inline `transform` that turns it open. Its triangle spans x 10.5–16 of a 25 viewBox. Sanity does not centre the box on the title; `align-items: center` on `legend > button` does.
+- **The group tabs wrapper reads the stock root theme.** `[data-testid="field-groups"]` gets `padding-bottom: 20px` from `theme.sanity.space[4]`, whatever the theme. The tabs are `@sanity/ui` 4 `Tab` buttons (`inline-flex`), so their padding follows the theme.
 
 ### Document pane and Studio chrome
 
@@ -214,6 +220,16 @@ They were checked in the dev Studio on Sanity 6.24.0 (2026-11-25), comparing `/u
 | Array items, list layout | | 3px padding top and bottom; the virtualised list keeps every item inside its card |
 | Array items, grid layout | 12px gap | 3px padding around each item, 14px gap from the bridged scale; items stay inside the card |
 
+Checked the same way on 2026-11-25, after adding the container title, the collapse arrow and the group tabs rules:
+
+| | Stock | Uplift |
+| --- | --- | --- |
+| Container title (objects and schema fieldsets, levels 1 to 3) | 13px, 500 | 16px/24px, 600 |
+| Title of an array, or of a simple field inside nested content | 13px, 500 | 14px, 600 (unchanged by the new rule) |
+| Collapse arrow | triangle about 3px, in a 9px box at the top of the title | triangle about 5.5px, centred on the title, 4px from it, open and closed |
+| Group tab height | 25px | 32px, text centred |
+| Group tabs to the first field | 72px | 56px, the same as between fields |
+
 Not checked yet: Sanity 5.
 
 | Part | Aims at | 0.2.0 | Now |
@@ -227,9 +243,11 @@ Not checked yet: Sanity 5.
 | Nested content indent | 16 px | Matched nothing (`> [tabindex]`) | `fieldset[data-level]:not([data-level="0"]) > :last-child` |
 | Array items | Extra room between items | Matched nothing (`[data-ui="Stack"]`) | Padding inside each item: `… > [data-ui="Grid"] > [data-index]` in the list layout, the grid's children in the grid layout |
 | Rule variables (`--uplift-*`) | A project's `:root` override wins | Lost to Uplift's defaults, which load later | Defaults declared in `:where(:root)` |
-| Group tabs | | No rule | No rule; still to decide |
+| Container title | One step above the fields inside | Did not exist | `fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"]` |
+| Collapse arrow | Visible at a glance | Did not exist | `fieldset[data-level] legend [data-sanity-icon="toggle-arrow-right"]`, centred through `legend > button` |
+| Group tabs | A taller target, close to the fields | No rule | `[data-testid="field-group-tabs"] [data-testid^="group-tab-"]` and `[data-testid="field-groups"]` |
 
 Still open:
 
 - **Sanity 5.** Not checked.
-- **Group tabs.** No rule yet.
+- **The collapse arrow's offset assumes Sanity's 9 px icon box.** If Sanity resizes `ToggleIconBox`, the arrow drifts off centre.

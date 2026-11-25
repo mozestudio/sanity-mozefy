@@ -10,6 +10,10 @@ Makes Uplift work on Sanity 6.24, whose form chrome ignores the theme. Checked i
   - Descriptions are targeted by their `desc_` id, so collapsible fieldset titles are left alone.
   - The nested content indent matches again.
   - The array rule adds room inside each item instead of setting a gap on a list that is virtualised.
+- **New form rules:**
+  - Container titles, the titles of objects and fieldsets with nested content, read one step above the field titles inside them: 16 px against 14 px.
+  - The collapse arrow of a collapsible object or fieldset is drawn larger and centred on its title. Sanity's triangle was about 3 px wide.
+  - Group tabs are 32 px tall, and sit as far from the first field as fields sit from each other. Before, they were 20 px further away.
 - **Rule variables can be overridden.** Their defaults are declared in `:where(:root)`, so a project's `:root` rule wins. Before, Uplift's defaults loaded later and won.
 - **Breaking:** `--uplift-fieldset-indent` is now `--uplift-nested-content-indent`. The old one never took effect on 6.24.
 - **New peer dependency:** `styled-components` ^6.1.15, which Sanity already requires.

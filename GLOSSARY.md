@@ -109,12 +109,20 @@ A named subset of a document's fields, so an editor works on one subset at a tim
 _Avoid_: fieldset, tab
 
 **Group tab**:
-The tab an editor uses to switch between field groups.
+The tab an editor uses to switch between field groups. The group tabs sit above the fields they switch between.
 _Avoid_: tab (documents also have view tabs)
 
 **Nested content**:
 The fields inside an object, an array, an image, a file or a fieldset, shown under its title and set apart by a line and an indent.
 _Avoid_: nested fieldset, child fields
+
+**Container title**:
+The field title of an object or fieldset whose fields show as nested content. It reads one step above the field titles inside it, so a container stands apart from its fields.
+_Avoid_: section title, group title, object label
+
+**Collapse arrow**:
+The arrow before the title of a collapsible object or fieldset, which opens and closes its nested content.
+_Avoid_: caret, chevron, toggle
 
 **Nesting level**:
 How deep nested content sits in a document. The document itself is level 0, so an object field placed straight on the document is already nested.

@@ -12,7 +12,11 @@
  */
 
 export interface UpliftStyleOptions {
-  /** Field titles stronger than their descriptions, and nested content indented. Default `true`. */
+  /**
+   * Field titles stronger than their descriptions, nested content indented,
+   * container titles above their fields, a visible collapse arrow and roomier
+   * group tabs. Default `true`.
+   */
   form?: boolean
   /** Extra room between array items, for lists and page builders. Default `true`. */
   arrays?: boolean
@@ -24,6 +28,11 @@ const VARIABLES = /* css */ `
   --uplift-field-description-size: 13px;
   --uplift-field-description-line-height: 19px;
   --uplift-nested-content-indent: 16px;
+  --uplift-container-title-size: 16px;
+  --uplift-container-title-line-height: 24px;
+  --uplift-collapse-arrow-size: 25px;
+  --uplift-group-tab-height: 32px;
+  --uplift-group-tabs-gap: 0px;
   --uplift-array-item-gap: 6px;
 }
 `
@@ -49,6 +58,39 @@ const FORM = /* css */ `
    list items, which also carry data-level, out. */
 fieldset[data-level]:not([data-level="0"]) > :last-child {
   padding-left: var(--uplift-nested-content-indent);
+}
+
+/* Container title: an object or fieldset with nested content reads one step
+   above the field titles inside it. Sanity draws nested content's line exactly
+   when data-level is above 0; > :first-child keeps the rule on the fieldset's
+   own header, out of the fields nested below it. */
+fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"] {
+  font-size: var(--uplift-container-title-size);
+  line-height: var(--uplift-container-title-line-height);
+}
+
+/* Collapse arrow: Sanity's icon is 14px, and the triangle fills a fifth of
+   it. A larger icon, centred on Sanity's 9px icon box, keeps it clear of the
+   title. The inline transform that turns it open stays Sanity's. */
+fieldset[data-level] legend > button {
+  align-items: center;
+}
+fieldset[data-level] legend [data-sanity-icon="toggle-arrow-right"] {
+  display: block;
+  width: var(--uplift-collapse-arrow-size);
+  height: var(--uplift-collapse-arrow-size);
+  margin: calc((9px - var(--uplift-collapse-arrow-size)) / 2);
+}
+
+/* Group tabs: a taller target, and no extra room below them. Sanity pads
+   them from the stock theme, so the tabs sat 20px further from the fields
+   they switch between than the fields sit from each other. */
+[data-testid="field-group-tabs"] [data-testid^="group-tab-"] {
+  min-height: var(--uplift-group-tab-height);
+  align-items: center;
+}
+[data-testid="field-groups"] {
+  padding-bottom: var(--uplift-group-tabs-gap);
 }
 `
 

@@ -12,7 +12,7 @@ It carries nothing project-specific. Your schemas, structure, colours and copy s
 
 - **Readable type.** Body text goes from 13 to 14 px, small text from 10 to 11 px.
 - **Room to breathe.** The middle steps of the spacing scale open up, so fields and controls stop crowding each other.
-- **Clear form hierarchy.** Field titles read stronger than their descriptions, descriptions keep a readable line length, nested content is indented.
+- **Clear form hierarchy.** Field titles read stronger than their descriptions, descriptions keep a readable line length, nested content is indented, and an object's title reads above the fields inside it.
 - **Lists that read as cards.** Array items get space between them, in plain lists and page builders alike.
 - **Composes with your theme.** Uplift touches only spacing and type, so it sits on top of any colour theme.
 - **Tunable, not forkable.** Every value is a theme token or a CSS custom property you can override.
@@ -102,7 +102,7 @@ The `space={n}` scale, in px.
 
 | Rule set | Option | What it does |
 | --- | --- | --- |
-| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested content indented by 16 px |
+| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested content indented by 16 px; container titles at 16 px, one step above the fields inside them; a larger collapse arrow; group tabs 32 px tall and as close to the fields as fields are to each other |
 | Arrays | `arrays` | 6 px of extra room between array items, on top of Sanity's own gap |
 
 ### Token bridge
@@ -157,6 +157,11 @@ From your project's own stylesheet. Uplift declares its defaults without specifi
 | `--uplift-field-description-size` | `13px` | Size of a field's description |
 | `--uplift-field-description-line-height` | `19px` | Line height of a field's description |
 | `--uplift-nested-content-indent` | `16px` | Indent of nested content |
+| `--uplift-container-title-size` | `16px` | Size of the title of an object or fieldset with nested content |
+| `--uplift-container-title-line-height` | `24px` | Line height of that title |
+| `--uplift-collapse-arrow-size` | `25px` | Size of the collapse arrow's icon; the triangle is about a fifth of it |
+| `--uplift-group-tab-height` | `32px` | Minimum height of a group tab |
+| `--uplift-group-tabs-gap` | `0px` | Extra room below the group tabs, on top of the gap between fields |
 | `--uplift-array-item-gap` | `6px` | Extra room between array items |
 
 ## API
