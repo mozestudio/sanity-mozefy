@@ -8,6 +8,20 @@
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "7bc223e2aafbdbf6e50ea243ba6ef67fe432bb069ab439fea0390795dac0bf7f"
     },
+    "sanity-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "commit": "627296c38d9bd80b23343f93666e5bcb3c9ccc86",
+      "sourceType": "github",
+      "skillPath": "skills/sanity-best-practices/SKILL.md",
+      "computedHash": "87f90e741e47e84de5001853314acf156fda2471cad4956f4730ea37240e591c"
+    },
+    "sanity-plugin-authoring": {
+      "source": "sanity-io/sanity",
+      "commit": "67d87c93994dcf16349a9621c5d3d9a808dca242",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/sanity-plugin-authoring/SKILL.md",
+      "computedHash": "4bfab27fdad687f2050dce58e77d70a2c97735d7b7c67c2d31ea30b41aa7e336"
+    },
     "sanity-plugin-best-practices": {
       "source": "sanity-io/plugins",
       "commit": "ecfb88e8b7b6f49d40fb0263eef9e52de855312c",
