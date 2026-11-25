@@ -1,12 +1,12 @@
-# sanity-mozefy
+# Sanity Uplift
 
-[![CI](https://github.com/mozestudio/sanity-mozefy/actions/workflows/ci.yml/badge.svg)](https://github.com/mozestudio/sanity-mozefy/actions/workflows/ci.yml)
+[![CI](https://github.com/mozestudio/sanity-uplift/actions/workflows/ci.yml/badge.svg)](https://github.com/mozestudio/sanity-uplift/actions/workflows/ci.yml)
 ![Sanity](https://img.shields.io/badge/sanity-v5%20%7C%20v6-f03e2f)
 ![Node](https://img.shields.io/badge/node-%3E%3D22-339933)
 
 **A calmer, more readable Sanity Studio for the people who write in it.**
 
-sanity-mozefy is the shared Studio layer we use at [Moze](https://github.com/mozestudio) on every Sanity project. It changes how the Studio reads, not what it does: a larger type scale, roomier spacing and a clearer hierarchy inside forms, so editors who are not developers can find their way through long documents.
+Sanity Uplift is the shared Studio layer we use at [Moze](https://github.com/mozestudio) on every Sanity project. It changes how the Studio reads, not what it does: a larger type scale, roomier spacing and a clearer hierarchy inside forms, so editors who are not developers can find their way through long documents.
 
 It carries nothing project-specific. Your schemas, structure, colours and copy stay where they are.
 
@@ -14,7 +14,7 @@ It carries nothing project-specific. Your schemas, structure, colours and copy s
 - **Room to breathe.** The middle steps of the spacing scale open up, so fields and controls stop crowding each other.
 - **Clear form hierarchy.** Field titles read stronger than their descriptions, descriptions keep a readable line length, nested fieldsets are indented.
 - **Lists that read as cards.** Array items and page-builder blocks get space between them.
-- **Composes with your theme.** Mozefy touches only spacing and type, so it sits on top of any colour theme.
+- **Composes with your theme.** Uplift touches only spacing and type, so it sits on top of any colour theme.
 - **Tunable, not forkable.** Every value is a theme token or a CSS custom property you can override.
 
 ## Contents
@@ -42,32 +42,32 @@ The package is installed straight from this repository, pinned to a release tag.
 
 ```sh
 # pnpm
-pnpm add github:mozestudio/sanity-mozefy#v0.1.0
+pnpm add github:mozestudio/sanity-uplift#v0.2.0
 
 # npm
-npm install github:mozestudio/sanity-mozefy#v0.1.0
+npm install github:mozestudio/sanity-uplift#v0.2.0
 ```
 
-This adds `"@mozestudio/sanity-mozefy": "github:mozestudio/sanity-mozefy#v0.1.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
+This adds `"@mozestudio/sanity-uplift": "github:mozestudio/sanity-uplift#v0.2.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
 
 ## Quick start
 
-Mozefy has two parts, because a Sanity plugin cannot set the theme: the theme belongs to the workspace config.
+Uplift has two parts, because a Sanity plugin cannot set the theme: the theme belongs to the workspace config.
 
 ```ts
 // sanity.config.ts
-import {mozefy, mozefyTheme} from '@mozestudio/sanity-mozefy'
+import {uplift, upliftTheme} from '@mozestudio/sanity-uplift'
 import {defineConfig} from 'sanity'
 
 export default defineConfig({
   // ...projectId, dataset, schema
-  theme: mozefyTheme(),
-  plugins: [mozefy() /* , ...your other plugins */],
+  theme: upliftTheme(),
+  plugins: [uplift() /* , ...your other plugins */],
 })
 ```
 
-- `mozefyTheme()` sets the spacing and type scale through Sanity UI's theme tokens.
-- `mozefy()` adds the form and array rules that tokens cannot reach.
+- `upliftTheme()` sets the spacing and type scale through Sanity UI's theme tokens.
+- `uplift()` adds the form and array rules that tokens cannot reach.
 
 Use both for the full effect. Either one works on its own.
 
@@ -77,7 +77,7 @@ Use both for the full effect. Either one works on its own.
 
 The `Text` scale, as `size={n}` in Sanity UI. Size 1 is the Studio's body text: field titles, inputs, lists.
 
-| Step | Sanity default | Mozefy |
+| Step | Sanity default | Uplift |
 | --- | --- | --- |
 | 0 | 10 / 15 px | **11 / 16 px** |
 | 1 | 13 / 19 px | **14 / 21 px** |
@@ -92,7 +92,7 @@ The `space={n}` scale, in px.
 | Step | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Sanity default | 0 | 4 | 8 | 12 | 20 | 32 | 52 | 84 | 136 | 220 |
-| Mozefy | 0 | 4 | 8 | **14** | **22** | **36** | **56** | **88** | 136 | 220 |
+| Uplift | 0 | 4 | 8 | **14** | **22** | **36** | **56** | **88** | 136 | 220 |
 
 ### Form and array rules
 
@@ -103,16 +103,16 @@ The `space={n}` scale, in px.
 
 ## Customise
 
-Start from the defaults: the point of Mozefy is that every Studio reads the same way. When a project really needs something different, override a value instead of copying the rules.
+Start from the defaults: the point of Uplift is that every Studio reads the same way. When a project really needs something different, override a value instead of copying the rules.
 
 ### Keep your colours
 
-Build your colour theme first and pass it as `base`. Mozefy keeps everything of the base theme except spacing and type.
+Build your colour theme first and pass it as `base`. Uplift keeps everything of the base theme except spacing and type.
 
 ```ts
 import {buildTheme} from '@sanity/themer'
 
-theme: mozefyTheme({
+theme: upliftTheme({
   base: buildTheme({light: {accent: '#0a7cff'}, dark: {accent: '#5aa8ff'}}),
 }),
 ```
@@ -120,15 +120,15 @@ theme: mozefyTheme({
 ### Turn a rule set off
 
 ```ts
-plugins: [mozefy({arrays: false})]
+plugins: [uplift({arrays: false})]
 ```
 
 ### Replace a token group
 
-`tokens.space` needs ten steps starting at `0`; `tokens.text` needs five. Mozefy throws a clear error otherwise.
+`tokens.space` needs ten steps starting at `0`; `tokens.text` needs five. Uplift throws a clear error otherwise.
 
 ```ts
-theme: mozefyTheme({
+theme: upliftTheme({
   tokens: {space: [0, 4, 8, 12, 20, 32, 52, 84, 136, 220]},
 }),
 ```
@@ -139,32 +139,32 @@ From your project's own stylesheet:
 
 ```css
 :root {
-  --mozefy-array-item-gap: 10px;
+  --uplift-array-item-gap: 10px;
 }
 ```
 
 | Property | Default | Controls |
 | --- | --- | --- |
-| `--mozefy-field-title-weight` | `600` | Weight of a field's title |
-| `--mozefy-field-description-size` | `13px` | Size of a field's description |
-| `--mozefy-field-description-line-height` | `19px` | Line height of a field's description |
-| `--mozefy-fieldset-indent` | `16px` | Indent of a nested fieldset's content |
-| `--mozefy-array-item-gap` | `6px` | Gap between the items of an array |
+| `--uplift-field-title-weight` | `600` | Weight of a field's title |
+| `--uplift-field-description-size` | `13px` | Size of a field's description |
+| `--uplift-field-description-line-height` | `19px` | Line height of a field's description |
+| `--uplift-fieldset-indent` | `16px` | Indent of a nested fieldset's content |
+| `--uplift-array-item-gap` | `6px` | Gap between the items of an array |
 
 ## API
 
-### `mozefyTheme(options?)`
+### `upliftTheme(options?)`
 
 Returns a `StudioTheme` for the config's `theme` option.
 
 | Option | Type | Default |
 | --- | --- | --- |
 | `base` | `StudioTheme` | The stock theme of your Sanity version |
-| `tokens` | `Partial<MozefyTokens>` | `comfortable` |
+| `tokens` | `Partial<UpliftTokens>` | `comfortable` |
 
-### `mozefy(options?)`
+### `uplift(options?)`
 
-A Studio plugin that injects Mozefy's CSS once, at the layout level.
+A Studio plugin that injects Uplift's CSS once, at the layout level.
 
 | Option | Type | Default |
 | --- | --- | --- |
@@ -175,17 +175,17 @@ A Studio plugin that injects Mozefy's CSS once, at the layout level.
 
 | Export | What it is |
 | --- | --- |
-| `comfortable` | The default `MozefyTokens`, to read or extend |
-| `buildStyles(options?)` | The CSS string `mozefy()` injects, if you need to place it yourself |
+| `comfortable` | The default `UpliftTokens`, to read or extend |
+| `buildStyles(options?)` | The CSS string `uplift()` injects, if you need to place it yourself |
 | `toFontSize(step)` | Turns a `{fontSize, lineHeight}` step into a Sanity UI font size, with cap-height trim and icon size |
-| `MozefyOptions`, `MozefyThemeOptions`, `MozefyTokens`, `TypeStep` | TypeScript types |
+| `UpliftOptions`, `UpliftThemeOptions`, `UpliftTokens`, `TypeStep` | TypeScript types |
 
 ## How it works
 
-- **Tokens first.** Whatever a theme token can express, Mozefy expresses as a token, so every Studio component picks it up consistently. Both the legacy and the `v2` theme fields are kept in step.
+- **Tokens first.** Whatever a theme token can express, Uplift expresses as a token, so every Studio component picks it up consistently. Both the legacy and the `v2` theme fields are kept in step.
 - **CSS only for the rest.** Form hierarchy and array spacing are not reachable through tokens, so the plugin adds a small stylesheet.
-- **Stable selectors.** Sanity's class names are generated hashes that change between releases. Mozefy targets only the attributes Sanity sets on purpose (`data-ui`, `data-testid`, `data-level`), and a test guards against generated class names.
-- **No side effects on your theme.** `mozefyTheme()` returns a new object and never mutates `base`.
+- **Stable selectors.** Sanity's class names are generated hashes that change between releases. Uplift targets only the attributes Sanity sets on purpose (`data-ui`, `data-testid`, `data-level`), and a test guards against generated class names.
+- **No side effects on your theme.** `upliftTheme()` returns a new object and never mutates `base`.
 
 ## Contributing
 

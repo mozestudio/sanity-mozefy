@@ -4,7 +4,7 @@ import {buildStyles} from './styles.js'
 describe('buildStyles', () => {
   it('includes the variables and both rule sets by default', () => {
     const css = buildStyles()
-    expect(css).toContain('--mozefy-field-title-weight')
+    expect(css).toContain('--uplift-field-title-weight')
     expect(css).toContain('fieldHeaderContentBox')
     expect(css).toContain('ArrayInput__content')
   })

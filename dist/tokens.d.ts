@@ -7,13 +7,13 @@ export interface TypeStep {
     lineHeight: number;
 }
 /**
- * The design decisions Mozefy applies to a Studio theme.
+ * The design decisions Uplift applies to a Studio theme.
  *
  * Every value maps onto a Sanity UI scale, indexed the same way as the
  * `space={n}` and `size={n}` props Studio components use, so each step keeps
  * its meaning and only its value changes.
  */
-export interface MozefyTokens {
+export interface UpliftTokens {
     /**
      * The spacing scale in px, ten steps. Index 0 must stay `0`.
      * Sanity default: `[0, 4, 8, 12, 20, 32, 52, 84, 136, 220]`.
@@ -31,5 +31,5 @@ export interface MozefyTokens {
  * developers: body text from 13px to 14px, small text from 10px to 11px, and
  * the middle spacing steps opened up so fields and controls breathe.
  */
-export declare const comfortable: MozefyTokens;
+export declare const comfortable: UpliftTokens;
 //# sourceMappingURL=tokens.d.ts.map

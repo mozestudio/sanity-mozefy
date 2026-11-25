@@ -1,32 +1,32 @@
 import { defaultTheme, type StudioTheme } from 'sanity';
-import { type MozefyTokens, type TypeStep } from './tokens.js';
+import { type UpliftTokens, type TypeStep } from './tokens.js';
 type RootTheme = typeof defaultTheme;
 type ThemeFontSize = RootTheme['fonts']['text']['sizes'][number];
-export interface MozefyThemeOptions {
+export interface UpliftThemeOptions {
     /**
      * The theme to start from. Pass the project's own theme here, for example the
      * result of `buildTheme` from `@sanity/themer` with the project's colours, and
-     * Mozefy keeps its colours and changes only spacing and type.
+     * Uplift keeps its colours and changes only spacing and type.
      * Defaults to the stock Studio theme of the project's Sanity version.
      */
     base?: StudioTheme;
     /** Replaces whole token groups. Defaults to {@link comfortable}. */
-    tokens?: Partial<MozefyTokens>;
+    tokens?: Partial<UpliftTokens>;
 }
 /**
- * Builds the value of a Studio's `theme` option: the base theme with Mozefy's
+ * Builds the value of a Studio's `theme` option: the base theme with Uplift's
  * spacing and type scale applied.
  *
- * A plugin cannot set the theme, so this lives beside the `mozefy()` plugin:
+ * A plugin cannot set the theme, so this lives beside the `uplift()` plugin:
  *
  * ```ts
  * defineConfig({
- *   theme: mozefyTheme(),
- *   plugins: [mozefy()],
+ *   theme: upliftTheme(),
+ *   plugins: [uplift()],
  * })
  * ```
  */
-export declare function mozefyTheme(options?: MozefyThemeOptions): StudioTheme;
+export declare function upliftTheme(options?: UpliftThemeOptions): StudioTheme;
 /**
  * Turns a type step into Sanity UI's font size: the cap-height trim is what
  * keeps text optically centred in buttons and inputs, and the icon size
