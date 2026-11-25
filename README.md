@@ -18,7 +18,7 @@ It carries nothing project-specific. Your schemas, structure, colours and copy s
 - **Tunable, not forkable.** Every value is a theme token or a CSS custom property you can override.
 
 > [!NOTE]
-> **Sanity 6.24 and later.** These versions build the form chrome (field headers, fieldsets, nested content) with Sanity UI 5, which ignores the theme. The `uplift()` plugin carries the theme's scales across with a [token bridge](#how-it-works). The selectors were rewritten for the markup of 6.24, but have not yet been checked in a running Studio. See [What Uplift can change in a Sanity Studio](docs/sanity-studio-surface.md).
+> **Sanity 6.24 and later.** These versions build the form chrome (field headers, fieldsets, nested content) with Sanity UI 5, which ignores the theme. The `uplift()` plugin carries the theme's scales across with a [token bridge](#how-it-works). The selectors were rewritten for the markup of 6.24 and checked in a running 6.24 Studio. See [What Uplift can change in a Sanity Studio](docs/sanity-studio-surface.md).
 
 ## Contents
 

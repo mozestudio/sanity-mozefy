@@ -198,7 +198,22 @@ Things to know when writing these selectors:
 
 ## 5. What Uplift touches, and whether it takes effect
 
-On Sanity 6.24, version 0.2.0 reached little of what it aimed at. The selectors below replace the ones it used. They are written from the source and covered by unit tests, but they **have not been checked in a running Studio yet**.
+On Sanity 6.24, version 0.2.0 reached little of what it aimed at. The selectors below replace the ones it used.
+
+They were checked in the dev Studio on Sanity 6.24.0 (2026-11-25), comparing `/uplift` with `/stock` on the `Fixture` document, in dark and light mode, by reading computed styles:
+
+| | Stock | Uplift |
+| --- | --- | --- |
+| `--space-3`, `--body-1` | 12px, 13px/1.5 | 14px, 14px/21px |
+| Field title, simple field and in a `legend` | 13px, weight 500 | 14px, weight 600 |
+| Title of a collapsible fieldset or object | 13px, 500 | 14px, 600 (not styled as a description) |
+| Field description | 13px/19.5px, no measure | 13px/19px, 68ch |
+| String input | 15px | 16px |
+| Nested content, levels 1 to 3 | 12px indent | 16px indent, line kept |
+| Portable Text list items (`data-level` 1 and 2) | 0 | 0 (untouched) |
+| Array items, list layout | | 3px padding top and bottom; the virtualised list keeps every item inside its card |
+
+Not checked yet: an array in grid layout with items (the fixture's gallery was empty), and Sanity 5.
 
 | Part | Aims at | 0.2.0 | Now |
 | --- | --- | --- | --- |
@@ -215,5 +230,5 @@ On Sanity 6.24, version 0.2.0 reached little of what it aimed at. The selectors 
 
 Still open:
 
-- **Check in a running Studio.** Do this in light and dark mode, with simple fields, objects, collapsible fieldsets, nested objects, an array in list layout, an array in grid layout and Portable Text lists.
+- **Grid layout with items, and Sanity 5.** Neither has been checked.
 - **Group tabs.** No rule yet.
