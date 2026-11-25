@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+    tags: ['v*']
 
 permissions:
   contents: read
@@ -21,4 +22,20 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
+      # Projects install the package straight from a tag, so the committed dist/ is what they run.
       - run: pnpm build
+      - name: Check the committed dist/ matches the source
+        run: |
+          if [ -n "$(git status --porcelain dist)" ]; then
+            git status --short dist
+            echo "dist/ is out of date: run pnpm build and commit it" >&2
+            exit 1
+          fi
+      - name: Check a version tag matches package.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version" >&2
+            exit 1
+          fi

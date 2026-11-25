@@ -16,22 +16,13 @@ The two layers are separate because a Sanity plugin cannot set the theme: the th
 
 ## Install
 
-The package is published privately to GitHub Packages, under the `@mozestudio` scope.
+Projects install it straight from this public repository, pinned to a release tag. There is no registry and no token: the tag carries the compiled `dist/`.
 
-1. Point the scope at GitHub Packages in the project's `.npmrc`:
+```sh
+pnpm add github:mozestudio/sanity-mozefy#v0.1.0
+```
 
-   ```ini
-   @mozestudio:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
-   ```
-
-2. Export a token with the `read:packages` scope as `GITHUB_PACKAGES_TOKEN`, locally and in CI (as a repository secret passed to every step that runs `pnpm install`).
-
-3. Install:
-
-   ```sh
-   pnpm add @mozestudio/sanity-mozefy
-   ```
+This writes `"@mozestudio/sanity-mozefy": "github:mozestudio/sanity-mozefy#v0.1.0"` to the project's `package.json`. To update, change the tag and run `pnpm install`.
 
 ## Use
 
@@ -102,14 +93,13 @@ theme: mozefyTheme({tokens: {space: [0, 4, 8, 12, 20, 32, 52, 84, 136, 220]}}),
 pnpm install
 pnpm test        # unit tests
 pnpm typecheck
-pnpm build       # dist/
+pnpm build       # dist/, committed: projects run it straight from a tag
 ```
 
 To try a change in a project's Studio before releasing, install the local folder there with `pnpm add file:../path/to/sanity-mozefy` (a `file:` dependency resolves `sanity` and React from the project, so the Studio keeps a single copy of each), and switch back to the released version afterwards.
 
 ## Release
 
-1. Bump `version` in `package.json` and note the change in `CHANGELOG.md`.
-2. Merge to `main`, then push a matching tag: `git tag v0.2.0 && git push origin v0.2.0`.
-3. The Publish workflow checks the tag against `package.json`, runs the checks and publishes to GitHub Packages.
-4. Update the projects with `pnpm up @mozestudio/sanity-mozefy`.
+1. Bump `version` in `package.json`, note the change in `CHANGELOG.md`, run `pnpm build` and commit `dist/` with the change. CI fails when `dist/` does not match the source.
+2. Merge to `main`, then push a matching tag: `git tag v0.2.0 && git push origin v0.2.0`. CI checks the tag against `package.json`.
+3. In each project, point the dependency at the new tag (`github:mozestudio/sanity-mozefy#v0.2.0`) and run `pnpm install`.
