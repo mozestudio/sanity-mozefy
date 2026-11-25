@@ -170,6 +170,7 @@ Two kinds of attribute exist:
 | Container title | `fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"]` | deliberate attribute plus structure; `Text` is incidental |
 | Collapse arrow | `fieldset[data-level] legend [data-sanity-icon="toggle-arrow-right"]`, inside `legend > button` | deliberate: `data-sanity-icon` is set by `@sanity/icons` |
 | Group tabs wrapper | `[data-testid="field-groups"]` | deliberate |
+| Fields of nested content | a fieldset's: `fieldset[data-level]:not([data-level="0"]) > :last-child > *` (the content's grid); an object's: `… > :last-child > * > [tabindex]` (`ObjectInput`'s `RootStack`, focusable when nested) | deliberate attribute plus structure |
 | Schema fieldset | `fieldset[data-testid="fieldset-<name>"]` | deliberate |
 | Group tabs | `[data-testid="field-group-tabs"]`, each tab `[data-testid="group-tab-<name>"]`, narrow-width `select[data-testid="field-group-select"]` | deliberate |
 | Array | `[data-ui="ArrayInput__content"]` | deliberate |
@@ -187,6 +188,9 @@ Things to know when writing these selectors:
 - **`[data-testid^="field-"]` on its own over-matches.** It also catches `field-actions-menu-*` and `field-group-*`.
 - **`data-level` above 0 means nested content.** `FormFieldSet` draws the line and the indent exactly when `level > 0`. On 6.24, arrays placed straight on the document, and their fieldsets, carry `data-level="0"`; objects and schema fieldsets carry 1 and up.
 - **The collapse arrow sits in a 9 px box.** `ToggleIconBox` in `FormFieldSetLegend` is 9 × 9 px with 3 px before the title, and the icon is `1em` with an inline `transform` that turns it open. Its triangle spans x 10.5–16 of a 25 viewBox. Sanity does not centre the box on the title; `align-items: center` on `legend > button` does.
+- **Nested content is spaced like the document.** `ObjectInput` renders every object's fields in a `RootStack` with `gap={6}`, the same step as the document's own fields; a schema fieldset's fields sit straight in `FormFieldSet`'s content grid, on step 5. The nested `RootStack` carries `tabindex="0"`, which tells it apart from an array's stack in the same place; an object edited in an array item dialog has none and sits at level 0.
+- **Collapsible titles start 12 px in.** The arrow's 9 px box and the 3 px after it sit inside the `legend > button`, before the title text.
+- **Group tabs pad their label by step 2.** Sanity's `Tab` wrapper sets `padding: 2`, and the `TabList` (`gap={2}`) offsets its own gap with a negative margin, so a tab's label starts 8 px in from the fields' edge. Below the `ElementQuery` breakpoint, `[data-testid="field-group-root"]` hides the `TabList` and shows `select[data-testid="field-group-select"]`, which sits on the edge.
 - **The group tabs wrapper reads the stock root theme.** `[data-testid="field-groups"]` gets `padding-bottom: 20px` from `theme.sanity.space[4]`, whatever the theme. The tabs are `@sanity/ui` 4 `Tab` buttons (`inline-flex`), so their padding follows the theme.
 
 ### Document pane and Studio chrome
@@ -230,6 +234,18 @@ Checked the same way on 2026-11-25, after adding the container title, the collap
 | Group tab height | 25px | 32px, text centred |
 | Group tabs to the first field | 72px | 56px, the same as between fields |
 
+Checked the same way on 2026-11-25, after adding the nested field gap and the edge alignment, in dark and light mode, and in a 380 px wide Studio:
+
+| | Stock | Uplift |
+| --- | --- | --- |
+| Gap between the document's own fields | 52px | 56px |
+| Gap between the fields of an object, levels 1 to 3 | 52px, the same as the document's | 22px |
+| Gap between the fields of a schema fieldset | 32px | 22px |
+| Collapsible title text (fieldset `meta`, object at level 3) | 12px after the fields' edge | on the edge; the triangle hangs in the indent, clear of the line |
+| First group tab label | 8px after the fields' edge | on the edge; the selected tab's background hangs before it |
+| Group select, 380px wide | on the edge | on the edge (the shift applies only to the tabs) |
+| Horizontal scroll, 380px wide | none | none |
+
 Not checked yet: Sanity 5.
 
 | Part | Aims at | 0.2.0 | Now |
@@ -245,9 +261,12 @@ Not checked yet: Sanity 5.
 | Rule variables (`--uplift-*`) | A project's `:root` override wins | Lost to Uplift's defaults, which load later | Defaults declared in `:where(:root)` |
 | Container title | One step above the fields inside | Did not exist | `fieldset[data-level]:not([data-level="0"]) > :first-child legend [data-ui="Text"]` |
 | Collapse arrow | Visible at a glance | Did not exist | `fieldset[data-level] legend [data-sanity-icon="toggle-arrow-right"]`, centred through `legend > button` |
-| Group tabs | A taller target, close to the fields | No rule | `[data-testid="field-group-tabs"] [data-testid^="group-tab-"]` and `[data-testid="field-groups"]` |
+| Group tabs | A taller target, close to the fields, labels on the fields' edge | No rule | `[data-testid="field-group-tabs"] [data-testid^="group-tab-"]`, `[data-testid="field-groups"]`, and a relative `inset-inline-start` on `[data-testid="field-group-tabs"]` |
+| Nested field gap | A container reads as one group | Did not exist | `row-gap` on the content grid and on the nested `RootStack` |
+| Collapsible title edge | The title starts on the fields' edge | Did not exist | `margin-inline-start: -12px` on `legend > button:has([data-sanity-icon="toggle-arrow-right"])` |
 
 Still open:
 
 - **Sanity 5.** Not checked.
-- **The collapse arrow's offset assumes Sanity's 9 px icon box.** If Sanity resizes `ToggleIconBox`, the arrow drifts off centre.
+- **The collapse arrow's offset assumes Sanity's 9 px icon box.** If Sanity resizes `ToggleIconBox`, the arrow drifts off centre, and the 12 px hang no longer puts the title on the edge.
+- **The nested field gap leans on `tabindex`.** If Sanity stops making the nested `RootStack` focusable, objects fall back to Sanity's spacing; fieldsets keep the rule.

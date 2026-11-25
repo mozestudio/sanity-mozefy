@@ -25,6 +25,23 @@ describe('uplift() layout', () => {
     expect(html).toContain('<main></main>')
   })
 
+  it('sizes the rule variables from the theme in context', () => {
+    const theme = upliftTheme({
+      tokens: {
+        text: [
+          {fontSize: 12, lineHeight: 17},
+          {fontSize: 15, lineHeight: 23},
+          {fontSize: 18, lineHeight: 27},
+          {fontSize: 21, lineHeight: 31},
+          {fontSize: 24, lineHeight: 34},
+        ],
+      },
+    })
+    const html = renderLayout(undefined, {sanity: theme})
+    expect(html).toContain('--uplift-container-title-size: 18px;')
+    expect(html).toContain('--uplift-field-description-size: 14px;')
+  })
+
   it('leaves the bridge out when turned off', () => {
     expect(renderLayout({bridge: false})).not.toContain('html:root')
   })

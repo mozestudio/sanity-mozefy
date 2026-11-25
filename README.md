@@ -46,13 +46,13 @@ The package is installed straight from this repository, pinned to a release tag.
 
 ```sh
 # pnpm
-pnpm add github:mozestudio/sanity-uplift#v0.3.0
+pnpm add github:mozestudio/sanity-uplift#v0.4.0
 
 # npm
-npm install github:mozestudio/sanity-uplift#v0.3.0
+npm install github:mozestudio/sanity-uplift#v0.4.0
 ```
 
-This adds `"@mozestudio/sanity-uplift": "github:mozestudio/sanity-uplift#v0.3.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
+This adds `"@mozestudio/sanity-uplift": "github:mozestudio/sanity-uplift#v0.4.0"` to your `package.json`. To update, change the tag and reinstall. Releases are listed in the [changelog](CHANGELOG.md).
 
 ## Quick start
 
@@ -102,7 +102,7 @@ The `space={n}` scale, in px.
 
 | Rule set | Option | What it does |
 | --- | --- | --- |
-| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested content indented by 16 px; container titles at 16 px, one step above the fields inside them; a larger collapse arrow; group tabs 32 px tall and as close to the fields as fields are to each other |
+| Form | `form` | Field titles at weight 600; descriptions at 13 px with a 68-character measure; nested content indented by 16 px, its fields 22 px apart instead of 56 px, so a container reads as one group; container titles at 16 px, one step above the fields inside them; a larger collapse arrow that hangs before the edge, so collapsible titles line up with the fields; group tabs 32 px tall, on the fields' edge and as close to the fields as fields are to each other |
 | Arrays | `arrays` | 6 px of extra room between array items, on top of Sanity's own gap |
 
 ### Token bridge
@@ -154,14 +154,17 @@ From your project's own stylesheet. Uplift declares its defaults without specifi
 | Property | Default | Controls |
 | --- | --- | --- |
 | `--uplift-field-title-weight` | `600` | Weight of a field's title |
-| `--uplift-field-description-size` | `13px` | Size of a field's description |
-| `--uplift-field-description-line-height` | `19px` | Line height of a field's description |
+| `--uplift-field-description-size` | `13px`: body text minus 1 px | Size of a field's description |
+| `--uplift-field-description-line-height` | `19px`: body text minus 2 px | Line height of a field's description |
 | `--uplift-nested-content-indent` | `16px` | Indent of nested content |
-| `--uplift-container-title-size` | `16px` | Size of the title of an object or fieldset with nested content |
-| `--uplift-container-title-line-height` | `24px` | Line height of that title |
+| `--uplift-nested-field-gap` | `22px`: spacing step 4 | Room between the fields of nested content |
+| `--uplift-container-title-size` | `16px`: step 2 | Size of the title of an object or fieldset with nested content |
+| `--uplift-container-title-line-height` | `24px`: step 2 | Line height of that title |
+| `--uplift-container-title-weight` | `700` | Weight of that title, one notch above field titles |
 | `--uplift-collapse-arrow-size` | `25px` | Size of the collapse arrow's icon; the triangle is about a fifth of it |
 | `--uplift-group-tab-height` | `32px` | Minimum height of a group tab |
 | `--uplift-group-tabs-gap` | `0px` | Extra room below the group tabs, on top of the gap between fields |
+| `--uplift-group-tab-inset` | `8px`: spacing step 2 | How far the group tabs move back, so their labels start on the fields' edge; match it to the tabs' padding |
 | `--uplift-array-item-gap` | `6px` | Extra room between array items |
 
 ## API
@@ -190,10 +193,10 @@ A Studio plugin that injects Uplift's CSS once, at the layout level: the token b
 | Export | What it is |
 | --- | --- |
 | `comfortable` | The default `UpliftTokens`, to read or extend |
-| `buildStyles(options?)` | The rules `uplift()` injects, if you need to place them yourself |
+| `buildStyles(options?, scales?)` | The rules `uplift()` injects, sized from `scales.space` and `scales.text` (each defaults to `comfortable`), if you need to place them yourself |
 | `buildTokenBridge(theme)` | The token bridge CSS for a `v2` theme |
 | `toFontSize(step)` | Turns a `{fontSize, lineHeight}` step into a Sanity UI font size, with cap-height trim and icon size |
-| `UpliftOptions`, `UpliftThemeOptions`, `UpliftTokens`, `TypeStep`, `BridgeTheme` | TypeScript types |
+| `UpliftOptions`, `UpliftThemeOptions`, `UpliftStyleScales`, `UpliftTokens`, `TypeStep`, `BridgeTheme` | TypeScript types |
 
 ## How it works
 
