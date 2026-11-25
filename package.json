@@ -36,6 +36,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "dev": "cd dev && sanity dev",
+    "dev:seed": "cd dev && sanity dataset import seed/fixture.ndjson --replace --dataset ${SANITY_STUDIO_DATASET:-development}",
     "typecheck": "tsc --noEmit && tsc -p dev",
     "test": "vitest run"
   },

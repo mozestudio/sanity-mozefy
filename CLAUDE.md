@@ -30,6 +30,7 @@ pnpm test        # vitest
 pnpm typecheck   # src/ and the dev Studio
 pnpm build       # rewrites dist/; commit it with the change, CI fails otherwise
 pnpm dev         # dev Studio on :3333, needs dev/.env.local (see CONTRIBUTING.md)
+pnpm dev:seed    # imports the Fixture document into the dev Studio's dataset
 ```
 
 Run all three before you finish. If you touch `src/`, `dist/` changes too.
@@ -49,7 +50,7 @@ Traps already found, on Sanity 6.24:
 
 Unit tests only check the CSS string. A selector that stops matching fails silently, so a change to a rule or to the bridge is not done until someone has checked it in a running Studio, in light and dark mode.
 
-Use the dev Studio for this. `/uplift` and `/stock` show the same `Fixture` document with and without Uplift. When a rule targets a part of the form that `Fixture` lacks, add a generic field to `dev/schema.ts`. If you could not check a change, say so in the PR and in the map. Never call it verified.
+Use the dev Studio for this. `/uplift` and `/stock` show the same `Fixture` document with and without Uplift. When a rule targets a part of the form that `Fixture` lacks, add a generic field to `dev/schema.ts`, and give it content in `dev/seed/fixture.ndjson`. If you could not check a change, say so in the PR and in the map. Never call it verified.
 
 ## Decisions
 

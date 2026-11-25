@@ -29,12 +29,15 @@ Point it at your own test project once:
 ```sh
 cp dev/.env.example dev/.env.local   # ignored by git
 # fill in SANITY_STUDIO_PROJECT_ID (and SANITY_STUDIO_DATASET if not "development")
+pnpm dev:seed                        # once: imports the Fixture document and its images
 pnpm dev                             # http://localhost:3333
 ```
 
+`pnpm dev:seed` writes `fixture-demo` from `dev/seed/fixture.ndjson`, replacing it if it exists, into the `development` dataset. For another dataset, run it as `SANITY_STUDIO_DATASET=name pnpm dev:seed`. Run it again whenever the seed changes.
+
 No test project yet? Create one with `pnpm dlx sanity@latest projects create`, or at sanity.io/manage, and allow `http://localhost:3333` among its CORS origins with credentials.
 
-The Studio has two workspaces on the same content: `/uplift` with the theme and plugin, `/stock` without, to compare against the Studio as Sanity ships it. The `Fixture` document type covers the parts of the form Uplift styles; add a field there when a rule targets something it lacks, and keep it generic.
+The Studio has two workspaces on the same content: `/uplift` with the theme and plugin, `/stock` without, to compare against the Studio as Sanity ships it. The `Fixture` document type covers the parts of the form Uplift styles; add a field there when a rule targets something it lacks, and keep it generic. Give the new field some content in `dev/seed/fixture.ndjson` too, so everyone sees it filled in.
 
 ### In a project
 
